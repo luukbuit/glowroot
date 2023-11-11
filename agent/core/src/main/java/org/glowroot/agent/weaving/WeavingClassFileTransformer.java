@@ -118,6 +118,10 @@ public class WeavingClassFileTransformer implements ClassFileTransformer {
     }
 
     private static boolean ignoreClass(String className, @Nullable ClassLoader loader) {
+        if (className.startsWith("com/blazesoft")) {
+            // Blaze engine deserialiseert, kan niet tegen afwijkende class hash
+            return true;
+        }
         if (!ALLOW_WEAVING_AGENT_CLASSES && isGlowrootAgentClass(className)) {
             // don't weave glowroot core classes, including shaded classes like h2 jdbc driver
             return true;
